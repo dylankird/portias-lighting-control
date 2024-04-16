@@ -18,6 +18,7 @@ teensydmx::Sender dmxTx{Serial1};
 // 11 - A spotlight pointing at the piller all the way stage-right
 // 12 - Burnt out or not connected
 
+elapsedMillis timeout;
 
 void setup() {
 
@@ -30,40 +31,59 @@ void setup() {
 
 void loop() {
 	//light_test(2);
+  
 	if(digitalRead(23) == LOW) { //Button 1
 		dmxTx.set(2, 255);
+    timeout = 0;
 	}
 	if(digitalRead(22) == LOW) { //Button 2
 		dmxTx.set(4, 255);
+    timeout = 0;
 	}
 	if(digitalRead(21) == LOW) { //Button 3
 		dmxTx.set(5, 255);
+    timeout = 0;
 	}
 	if(digitalRead(20) == LOW) { //Button 4
 		dmxTx.set(6, 255);
+    timeout = 0;
 	}
 	if(digitalRead(19) == LOW) { //Button 5
 		dmxTx.set(7, 255);
+    timeout = 0;
 	}
 	if(digitalRead(18) == LOW) { //Button 6
 		dmxTx.set(8, 255);
+    timeout = 0;
 	}
 	if(digitalRead(17) == LOW) { //Button 7
 		dmxTx.set(9, 255);
+    timeout = 0;
 	}
 	if(digitalRead(16) == LOW) { //Button 8
 		dmxTx.set(11, 255);
+    timeout = 0;
 	}
 	if(digitalRead(15) == LOW) { //Button 9
 		for(int i = 1; i < 13; i++) {
 			dmxTx.set(i, 255);
 		}
+    timeout = 0;
 	}
 	if(digitalRead(14) == LOW) { //Off Button
 		for(int i = 1; i < 13; i++) {
 			dmxTx.set(i, 0);
 		}
+    timeout = 0;
 	}
+
+  if(timeout > 1800000)    //1800000 = 30 min
+  {
+    for(int i = 1; i < 13; i++) {
+      dmxTx.set(i, 0);
+    }
+    timeout = 0;
+  }
 }
 
 
